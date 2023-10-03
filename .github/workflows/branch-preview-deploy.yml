@@ -1,7 +1,6 @@
 name: pull-request-provision
 on:
   pull_request:
-    branches: [feature/**]
     types: [opened, synchronize, edited, reopened, ready_for_review]
 jobs:
   harbor-ship:
