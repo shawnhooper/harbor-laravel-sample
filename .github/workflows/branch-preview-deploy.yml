@@ -1,0 +1,30 @@
+name: pull-request-provision
+on:
+  pull_request:
+    branches: [feature/**]
+    types: [opened, synchronize, edited, reopened, ready_for_review]
+jobs:
+  harbor-ship:
+    runs-on: ubuntu-latest
+    container:
+      image: kirschbaumdevelopment/laravel-test-runner:8.1
+    steps:
+      - name: Start Shipping
+        env:
+          FORGE_TOKEN: ${{ secrets.FORGE_TOKEN }}
+          FORGE_DOMAIN: forgeharbor.dev
+          FORGE_SERVER: 719481
+          FORGE_NGINX_TEMPLATE: 9736
+          FORGE_GIT_REPOSITORY: ${{ github.repository }}
+          FORGE_GIT_BRANCH: ${{ github.head_ref }}
+          FORGE_SUBDOMAIN_PATTERN: /^[a-z]{1,5}-(\d{1,5})/i
+          FORGE_NGINX_SUBSTITUTE: 'PORT_NUMBER:1922,FOO:bar'
+          FORGE_ENV_KEYS: 'APP_NAME=my-app-name\nMAIL_USERNAME=my-username'
+          FORGE_DEPLOY_SCRIPT: 'cd /home/forge/hello\ngit pull origin $FORGE_SITE_BRANCH\ncomposer install'
+          FORGE_SSL_REQUIRED: false
+
+        run: |
+          git clone https://github.com/mehrancodes/forge-harbor.git
+          cd forge-harbor
+          composer install
+          php harbor ship
