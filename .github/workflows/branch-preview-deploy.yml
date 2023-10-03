@@ -22,11 +22,6 @@ jobs:
     container:
       image: kirschbaumdevelopment/laravel-test-runner:8.1
     steps:
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: |
-          echo "$GITHUB_CONTEXT"
       - name: Start Shipping
         env:
           FORGE_TOKEN: ${{ secrets.FORGE_TOKEN }}
