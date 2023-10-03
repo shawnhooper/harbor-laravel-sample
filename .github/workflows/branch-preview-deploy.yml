@@ -9,11 +9,16 @@ jobs:
     container:
       image: kirschbaumdevelopment/laravel-test-runner:8.1
     steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: |
+          echo "$GITHUB_CONTEXT"
       - name: Start Shipping
         env:
           FORGE_TOKEN: ${{ secrets.FORGE_TOKEN }}
           FORGE_DOMAIN: forgeharbor.dev
-          FORGE_SERVER: 719481
+          FORGE_SERVER: ${{ secrets.FORGE_SERVER }}
           FORGE_NGINX_TEMPLATE: 9736
           FORGE_GIT_REPOSITORY: ${{ github.repository }}
           FORGE_GIT_BRANCH: ${{ github.head_ref }}
