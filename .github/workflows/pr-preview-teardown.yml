@@ -3,7 +3,7 @@ on:
   pull_request:
     types: [closed]
 jobs:
-  harbor-ship:
+  harbor-teardown:
     if: |
       github.event.pull_request.draft == false &&
       (

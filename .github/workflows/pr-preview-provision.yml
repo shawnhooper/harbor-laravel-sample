@@ -3,7 +3,7 @@ on:
   pull_request:
     types: [opened, synchronize, edited, reopened, ready_for_review]
 jobs:
-  harbor-ship:
+  harbor-provision:
     if: |
       github.event.pull_request.draft == false &&
       (
