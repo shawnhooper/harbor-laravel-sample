@@ -35,6 +35,6 @@ jobs:
           FORGE_DEPLOY_SCRIPT: "cd $FORGE_SITE_PATH\ngit pull origin $FORGE_SITE_BRANCH\ncp .env.example .env\ncomposer install"
           FORGE_SSL_REQUIRED: false
         run: |
-          curl -LJO https://github.com/mehrancodes/forge-veyoze/releases/download/v0.0.3/veyoze
+          curl -LJO https://github.com/mehrancodes/veyoze/releases/download/v0.0.3/veyoze
           chmod +x ./veyoze
           ./veyoze provision
