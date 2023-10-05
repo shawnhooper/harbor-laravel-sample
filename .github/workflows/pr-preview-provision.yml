@@ -3,7 +3,7 @@ on:
   pull_request:
     types: [opened, synchronize, edited, reopened, ready_for_review]
 jobs:
-  harbor-provision:
+  veyoze-provision:
     if: |
       github.event.pull_request.draft == false &&
       (
@@ -25,7 +25,7 @@ jobs:
       - name: Start Shipping
         env:
           FORGE_TOKEN: ${{ secrets.FORGE_TOKEN }}
-          FORGE_DOMAIN: harbor-forge.test
+          FORGE_DOMAIN: veyoze.test
           FORGE_SERVER: ${{ secrets.FORGE_SERVER }}
           FORGE_NGINX_TEMPLATE: ${{ secrets.FORGE_NGINX_TEMPLATE }}
           FORGE_GIT_REPOSITORY: ${{ github.repository }}
@@ -35,6 +35,6 @@ jobs:
           FORGE_DEPLOY_SCRIPT: "cd $FORGE_SITE_PATH\ngit pull origin $FORGE_SITE_BRANCH\ncp .env.example .env\ncomposer install"
           FORGE_SSL_REQUIRED: false
         run: |
-          curl -LJO https://github.com/mehrancodes/forge-harbor/releases/download/v0.0.2/harbor
-          chmod +x ./harbor
-          ./harbor provision
+          curl -LJO https://github.com/mehrancodes/forge-veyoze/releases/download/v0.0.3/veyoze
+          chmod +x ./veyoze
+          ./veyoze provision

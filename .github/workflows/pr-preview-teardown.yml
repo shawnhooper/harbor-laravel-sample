@@ -3,7 +3,7 @@ on:
   pull_request:
     types: [closed]
 jobs:
-  harbor-teardown:
+  veyoze-teardown:
     if: |
       github.event.pull_request.draft == false &&
       (
@@ -21,16 +21,16 @@ jobs:
     container:
       image: kirschbaumdevelopment/laravel-test-runner:8.1
     steps:
-      - name: Start Shipping
+      - name: Start Teardown
         env:
           FORGE_TOKEN: ${{ secrets.FORGE_TOKEN }}
-          FORGE_DOMAIN: prvoisioner.test
+          FORGE_DOMAIN: veyoze.test
           FORGE_SERVER: ${{ secrets.FORGE_SERVER }}
           FORGE_NGINX_TEMPLATE: ${{ secrets.FORGE_NGINX_TEMPLATE }}
           FORGE_GIT_REPOSITORY: ${{ github.repository }}
           FORGE_GIT_BRANCH: ${{ github.head_ref }}
           FORGE_SUBDOMAIN_PATTERN: /^[a-z]{1,5}-(\d{1,5})/i
         run: |
-          curl -LJO https://github.com/mehrancodes/forge-harbor/releases/download/v0.0.2/harbor
-          chmod +x ./harbor
-          ./harbor teardown
+          curl -LJO https://github.com/mehrancodes/forge-veyoze/releases/download/v0.0.3/veyoze
+          chmod +x ./veyoze
+          ./veyoze teardown
