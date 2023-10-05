@@ -31,6 +31,6 @@ jobs:
           FORGE_GIT_BRANCH: ${{ github.head_ref }}
           FORGE_SUBDOMAIN_PATTERN: /^[a-z]{1,5}-(\d{1,5})/i
         run: |
-          curl -LJO https://github.com/mehrancodes/forge-veyoze/releases/download/v0.0.3/veyoze
+          curl -LJO https://github.com/mehrancodes/veyoze/releases/download/v0.0.3/veyoze
           chmod +x ./veyoze
           ./veyoze teardown
