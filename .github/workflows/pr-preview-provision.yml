@@ -1,40 +1,35 @@
-name: pull-request-preview-provision
+name: preview-provision
 on:
   pull_request:
-    types: [opened, synchronize, edited, reopened, ready_for_review]
+    types: [opened, edited, reopened]
 jobs:
   veyoze-provision:
     if: |
       github.event.pull_request.draft == false &&
       (
           (
-              contains(github.event.pull_request.title, '[preview]') &&
+              contains(github.event.pull_request.title, '[veyoze]') &&
               contains(fromJson('["opened", "reopened", "ready_for_review"]'), github.event.action)
           ) ||
           (
               github.event.action == 'edited' &&
-              contains(github.event.pull_request.title, '[preview]') &&
+              contains(github.event.pull_request.title, '[veyoze]') &&
               github.event.changes.title.from &&
-              !contains(github.event.changes.title.from, '[preview]')
+              !contains(github.event.changes.title.from, '[veyoze]')
           )
       )
     runs-on: ubuntu-latest
     container:
       image: kirschbaumdevelopment/laravel-test-runner:8.1
     steps:
-      - name: Start Shipping
+      - name: Install Veyoze
+        run: composer global require mehrancodes/veyoze -q
+      - name: Start Provisioning
         env:
-          FORGE_TOKEN: ${{ secrets.FORGE_TOKEN }}
-          FORGE_DOMAIN: veyoze.test
-          FORGE_SERVER: ${{ secrets.FORGE_SERVER }}
-          FORGE_NGINX_TEMPLATE: ${{ secrets.FORGE_NGINX_TEMPLATE }}
-          FORGE_GIT_REPOSITORY: ${{ github.repository }}
-          FORGE_GIT_BRANCH: ${{ github.head_ref }}
-          FORGE_SUBDOMAIN_PATTERN: /^[a-z]{1,5}-(\d{1,5})/i
-          FORGE_ENV_KEYS: "APP_NAME=Provisioner\nMAIL_USERNAME=username"
-          FORGE_DEPLOY_SCRIPT: "cd $FORGE_SITE_PATH\ngit pull origin $FORGE_SITE_BRANCH\ncp .env.example .env\ncomposer install"
-          FORGE_SSL_REQUIRED: false
+          FORGE_TOKEN: ${{ secrets.FORGE_TOKEN }} # Your Forge token
+          FORGE_SERVER: ${{ secrets.FORGE_SERVER }} # The Forge server id you want to make a new site on
+          FORGE_GIT_REPOSITORY: ${{ github.repository }} # mehrancodes/veyoze-laravel-sample
+          FORGE_GIT_BRANCH: ${{ github.head_ref }} # plt-123-add-new-feature
+          FORGE_DOMAIN: veyoze.com
         run: |
-          curl -LJO https://github.com/mehrancodes/veyoze/releases/download/v0.0.3/veyoze
-          chmod +x ./veyoze
-          ./veyoze provision
+          veyoze provision

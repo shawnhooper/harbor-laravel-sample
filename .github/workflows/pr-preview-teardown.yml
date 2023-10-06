@@ -8,29 +8,26 @@ jobs:
       github.event.pull_request.draft == false &&
       (
           (
-              contains(github.event.pull_request.title, '[preview]') &&
+              contains(github.event.pull_request.title, '[veyoze]') &&
               github.event.action == 'closed'
           ) ||
           (
               github.event.action == 'edited' &&
-              contains(github.event.changes.title.from, '[preview]') &&
-              !contains(github.event.pull_request.title, '[preview]')
+              contains(github.event.changes.title.from, '[veyoze]') &&
+              !contains(github.event.pull_request.title, '[veyoze]')
           )
       )
     runs-on: ubuntu-latest
     container:
       image: kirschbaumdevelopment/laravel-test-runner:8.1
     steps:
+      - name: Install Veyoze
+        run: composer global require mehrancodes/veyoze -q
       - name: Start Teardown
         env:
           FORGE_TOKEN: ${{ secrets.FORGE_TOKEN }}
-          FORGE_DOMAIN: veyoze.test
           FORGE_SERVER: ${{ secrets.FORGE_SERVER }}
-          FORGE_NGINX_TEMPLATE: ${{ secrets.FORGE_NGINX_TEMPLATE }}
           FORGE_GIT_REPOSITORY: ${{ github.repository }}
           FORGE_GIT_BRANCH: ${{ github.head_ref }}
-          FORGE_SUBDOMAIN_PATTERN: /^[a-z]{1,5}-(\d{1,5})/i
-        run: |
-          curl -LJO https://github.com/mehrancodes/veyoze/releases/download/v0.0.3/veyoze
-          chmod +x ./veyoze
-          ./veyoze teardown
+          FORGE_DOMAIN: veyoze.com
+        run: veyoze teardown
