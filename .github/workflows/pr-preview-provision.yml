@@ -9,7 +9,7 @@ jobs:
       (
           (
               contains(github.event.pull_request.title, '[veyoze]') &&
-              contains(fromJson('["opened", "reopened", "ready_for_review"]'), github.event.action)
+              contains(fromJson('["opened", "reopened", "synchronize", "ready_for_review"]'), github.event.action)
           ) ||
           (
               github.event.action == 'edited' &&
