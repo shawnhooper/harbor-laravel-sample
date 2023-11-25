@@ -22,8 +22,12 @@ jobs:
     container:
       image: kirschbaumdevelopment/laravel-test-runner:8.1
     steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
       - name: Install Veyoze
-        run: git clone -b 47-manual-subdomain-names git@github.com:mehrancodes/veyoze.git
+        run: composer global require mehrancodes/veyoze -q
       - name: Start Provisioning
         env:
           FORGE_TOKEN: ${{ secrets.FORGE_TOKEN }} # Your Forge token
@@ -35,7 +39,5 @@ jobs:
           GIT_COMMENT_ENABLED: TRUE
           GIT_TOKEN: ${{ github.token }}
           GIT_ISSUE_NUMBER: ${{ github.event.number }}
-          SUBDOMAIN_NAME: pr-${{ github.event.number }}
         run: |
-          composer install
-          php veyoze provision
+          veyoze provision
