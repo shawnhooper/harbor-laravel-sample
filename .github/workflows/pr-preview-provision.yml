@@ -22,10 +22,6 @@ jobs:
     container:
       image: kirschbaumdevelopment/laravel-test-runner:8.1
     steps:
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
       - name: Install Veyoze
         run: composer global require mehrancodes/veyoze -q
       - name: Start Provisioning
