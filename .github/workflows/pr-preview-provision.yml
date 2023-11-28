@@ -32,8 +32,6 @@ jobs:
           FORGE_GIT_BRANCH: ${{ github.head_ref }} # plt-123-add-new-feature
           FORGE_DOMAIN: veyoze.com
           FORGE_ENV_KEYS: ${{ vars.LARAVEL_ENV_KEYS }}
-          GIT_COMMENT_ENABLED: TRUE
-          GIT_TOKEN: ${{ github.token }}
-          GIT_ISSUE_NUMBER: ${{ github.event.number }}
+          SUBDOMAIN_NAME: pr-${{ github.event.number }}
         run: |
           veyoze provision
