@@ -1,7 +1,7 @@
 name: pull-request-preview-teardown
 on:
   pull_request:
-    types: [closed]
+    types: [closed, edited]
 jobs:
   veyoze-teardown:
     if: |
