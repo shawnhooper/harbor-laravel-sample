@@ -33,5 +33,6 @@ jobs:
           FORGE_DOMAIN: veyoze.veyoze.com
           FORGE_ENV_KEYS: ${{ vars.LARAVEL_ENV_KEYS }}
           SUBDOMAIN_NAME: pr-${{ github.event.number }}
+          FORGE_PHP_VERSION: php83
         run: |
           veyoze provision
