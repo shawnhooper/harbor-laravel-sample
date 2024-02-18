@@ -30,7 +30,7 @@ jobs:
           FORGE_SERVER: ${{ secrets.FORGE_SERVER }} # The Forge server id you want to make a new site on
           FORGE_GIT_REPOSITORY: ${{ github.repository }} # mehrancodes/veyoze-laravel-sample
           FORGE_GIT_BRANCH: ${{ github.head_ref }} # plt-123-add-new-feature
-          FORGE_DOMAIN: veyoze.com
+          FORGE_DOMAIN: veyoze.veyoze.com
           FORGE_ENV_KEYS: ${{ vars.LARAVEL_ENV_KEYS }}
           SUBDOMAIN_NAME: pr-${{ github.event.number }}
         run: |
