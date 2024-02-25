@@ -3,31 +3,31 @@ on:
   pull_request:
     types: [closed, edited]
 jobs:
-  veyoze-teardown:
+  harbor-teardown:
     if: |
       github.event.pull_request.draft == false &&
       (
           (
-              contains(github.event.pull_request.title, '[veyoze]') &&
+              contains(github.event.pull_request.title, '[harbor]') &&
               github.event.action == 'closed'
           ) ||
           (
               github.event.action == 'edited' &&
-              contains(github.event.changes.title.from, '[veyoze]') &&
-              !contains(github.event.pull_request.title, '[veyoze]')
+              contains(github.event.changes.title.from, '[harbor]') &&
+              !contains(github.event.pull_request.title, '[harbor]')
           )
       )
     runs-on: ubuntu-latest
     container:
       image: kirschbaumdevelopment/laravel-test-runner:8.1
     steps:
-      - name: Install Veyoze
-        run: composer global require mehrancodes/veyoze -q
+      - name: Install Harbor
+        run: composer global require mehrancodes/laravel-harbor -q
       - name: Start Teardown
         env:
           FORGE_TOKEN: ${{ secrets.FORGE_TOKEN }}
           FORGE_SERVER: ${{ secrets.FORGE_SERVER }}
           FORGE_GIT_REPOSITORY: ${{ github.repository }}
           FORGE_GIT_BRANCH: ${{ github.head_ref }}
-          FORGE_DOMAIN: veyoze.com
-        run: veyoze teardown
+          FORGE_DOMAIN: laravel-harbor.com
+        run: harbor teardown
