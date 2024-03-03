@@ -27,6 +27,7 @@ jobs:
               git clone --branch slack https://github.com/shawnhooper/laravel-harbor.git .
                 chmod a+x harbor
               ls -al
+              composer install
       - name: Start Provisioning
         env:
           FORGE_TOKEN: ${{ secrets.FORGE_TOKEN }} # Your Forge token
