@@ -20,10 +20,14 @@ jobs:
       )
     runs-on: ubuntu-latest
     container:
-      image: kirschbaumdevelopment/laravel-test-runner:8.1
+      image: kirschbaumdevelopment/laravel-test-runner:8.2
     steps:
       - name: Install Harbor
-        run: composer global require mehrancodes/laravel-harbor -q
+        run: |
+              git clone --branch slack https://github.com/shawnhooper/laravel-harbor.git .
+                chmod a+x harbor
+              ls -al
+              composer install
       - name: Start Provisioning
         env:
           FORGE_TOKEN: ${{ secrets.FORGE_TOKEN }} # Your Forge token
@@ -33,7 +37,10 @@ jobs:
           FORGE_DOMAIN: laravel-harbor.com
           FORGE_ENV_KEYS: ${{ vars.LARAVEL_ENV_KEYS }}
           SUBDOMAIN_NAME: pr-${{ github.event.number }}
-          FORGE_PHP_VERSION: php83
+          FORGE_PHP_VERSION: php82
           FORGE_DEPLOY_SCRIPT: ${{ vars.FORGE_DEPLOY_SCRIPT }}
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_CHANNEL: "#shawn-test1"
         run: |
-          harbor provision
+          export
+          php harbor provision
