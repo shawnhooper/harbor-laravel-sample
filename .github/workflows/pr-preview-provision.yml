@@ -42,4 +42,5 @@ jobs:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
           SLACK_CHANNEL: "#shawn-test1"
         run: |
+          export
           php harbor provision
