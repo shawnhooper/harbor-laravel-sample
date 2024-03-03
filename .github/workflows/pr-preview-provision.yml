@@ -28,7 +28,6 @@ jobs:
                 chmod a+x harbor
               ls -al
               composer install
-              composer require laravel/slack-notification-channel
       - name: Start Provisioning
         env:
           FORGE_TOKEN: ${{ secrets.FORGE_TOKEN }} # Your Forge token
