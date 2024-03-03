@@ -23,7 +23,7 @@ jobs:
       image: kirschbaumdevelopment/laravel-test-runner:8.1
     steps:
       - name: Install Harbor
-        run: composer global require shawnhooper/laravel-harbor -q
+        run: git clone https://github.com/shawnhooper/laravel-harbor.git .
       - name: Start Provisioning
         env:
           FORGE_TOKEN: ${{ secrets.FORGE_TOKEN }} # Your Forge token
@@ -38,4 +38,5 @@ jobs:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
           SLACK_CHANNEL: "#logs-develop"
         run: |
+          git checkout slack
           harbor provision
